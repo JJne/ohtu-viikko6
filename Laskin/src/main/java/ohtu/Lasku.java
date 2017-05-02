@@ -9,9 +9,13 @@ import javax.swing.JTextField;
 
 
 public abstract class Lasku implements Komento {
-    Sovelluslogiikka sovellus;
-    JTextField tuloskentta;
-    JTextField syotekentta;
+    protected Sovelluslogiikka sovellus;
+    protected JTextField tuloskentta;
+    protected JTextField syotekentta;
+    
+    protected int edellinenTulos;
+    protected String edellinenTuloskentta;
+    protected String edellinenSyotekentta;
     
     public Lasku(Sovelluslogiikka sovellus, JTextField tuloskentta, JTextField syotekentta) {
         this.sovellus = sovellus;
@@ -21,6 +25,10 @@ public abstract class Lasku implements Komento {
     
     @Override
     public void suorita() {
+        edellinenTulos = sovellus.tulos();
+        edellinenTuloskentta = tuloskentta.getText();
+        edellinenSyotekentta = syotekentta.getText();
+        
         int arvo = 0;
  
         try {
@@ -35,7 +43,11 @@ public abstract class Lasku implements Komento {
     
     @Override
     public void peru() {
+        sovellus.nollaa();
+        sovellus.plus(edellinenTulos);
         
+        tuloskentta.setText(edellinenTuloskentta);
+        syotekentta.setText(edellinenSyotekentta);
     }
     
     protected abstract void laske(int arvo);   
